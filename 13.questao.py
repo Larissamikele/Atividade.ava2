@@ -1,43 +1,30 @@
-x_inicial = int(input("Digite a posição inicial X: "))
-y_inicial = int(input("Digite a posição inicial Y: "))
-movimentos = input("Digite os movimentos do robô: ").lower()
+x_inicial, y_inicial = int(input("Digite a coordenada X inicial: ")), int(input("Digite a coordenada Y inicial: "))
 
-x = x_inicial
-y = y_inicial
-movimentos_validos = []
-contador_movimentos = 0
+x, y = x_inicial, y_inicial
+movimentos = input("Digite a sequência de movimentos: ")
+
+movimentos_validos, contagem_validos = "", 0
+direcoes = {'U': (0, 1), 'D': (0, -1), 'R': (1, 0), 'L': (-1, 0), 'O': (-1, 1), 'N': (1, 1), 'E': (1, -1), 'W': (-1, -1)}
 
 for movimento in movimentos:
-    if movimento == 'u':
-        y += 1
-        movimentos_validos.append('C')
-        contador_movimentos += 1
-    elif movimento == 'd':
-        y -= 1
-        movimentos_validos.append('B')
-        contador_movimentos += 1
-    elif movimento == 'r':
-        x += 1
-        movimentos_validos.append('D')
-        contador_movimentos += 1
-    elif movimento == 'l':
-        x -= 1
-        movimentos_validos.append('E')
-        contador_movimentos += 1
-    elif movimento == 'o':
-        x -= 1
-        y += 1
-        movimentos_validos.append('NO')
-        contador_movimentos += 1
-    elif movimento == 'n':
-        x += 1
-        y += 1
-        movimentos_validos.append('NE')
-        contador_movimentos += 1
-    elif movimento == 'e':
-        x += 1
-        y -= 1
-        movimentos_validos.append('SE')
-        contador_movimentos += 1
-    elif movimento == 'w':
-        x -= 1
+    if movimento in direcoes:
+        dx, dy = direcoes[movimento]
+        x, y = x + dx, y + dy
+        movimentos_validos += movimento
+        contagem_validos += 1
+
+def quadrante(x, y):
+    if x > 0 and y > 0: return "I"
+    if x < 0 and y > 0: return "II"
+    if x < 0 and y < 0: return "III"
+    if x > 0 and y < 0: return "IV"
+    if x == 0 and y != 0: return "Sobre o eixo Y"
+    if x != 0 and y == 0: return "Sobre o eixo X"
+    return "Origem"
+
+print(f"Posição inicial: ({x_inicial}, {y_inicial})")
+print(f"Posição final: ({x}, {y})")
+print(f"Quantidade de movimentos válidos: {contagem_validos}")
+print(f"Movimentos válidos executados: {movimentos_validos}")
+print(f"Quadrante inicial: {quadrante(x_inicial, y_inicial)}")
+print(f"Quadrante final: {quadrante(x, y)}")
